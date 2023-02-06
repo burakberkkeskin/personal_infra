@@ -31,14 +31,14 @@ module "ec2_instance" {
   ]
 }
 
-# module "load_balancer" {
-#   source = "../modules/application-load-balancer"
-#   name = var.project_name
-#   enable_deletion_protection = var.lb_enable_deletion_protection
-#   vpc_id = module.vpc.vpc_id
-#   security_groups = [module.vpc.http_security_group_id]
-#   subnets = module.vpc.public_subnet_ids
-#   tags = var.alb_tags
-#   health_check_options = var.health_check_options
-#   instance_ids = [module.ec2_instance.instance_id]
-# }
+module "load_balancer" {
+  source = "../modules/application-load-balancer"
+  name = var.project_name
+  enable_deletion_protection = var.lb_enable_deletion_protection
+  vpc_id = module.vpc.vpc_id
+  security_groups = [module.vpc.http_security_group_id, module.vpc.egress_security_group_id]
+  subnets = module.vpc.public_subnet_ids
+  tags = var.lb_tags
+  health_check_options = var.lb_health_check_options
+  instance_ids = [module.ec2_instance.instance_id]
+}

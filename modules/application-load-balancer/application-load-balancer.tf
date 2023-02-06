@@ -32,7 +32,7 @@ resource "aws_lb" "main" {
   ip_address_type = "ipv4"
   load_balancer_type = "application"
   security_groups    = var.security_groups
-  subnets            = var.subnets
+  subnets            = [for subnet in var.subnets : subnet]
   enable_deletion_protection = var.enable_deletion_protection
 
   access_logs {
