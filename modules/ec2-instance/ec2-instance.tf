@@ -1,6 +1,6 @@
 resource "aws_key_pair" "main" {
   key_name = var.key_name
-  public_key = file(var.private_key_path)
+  public_key = file(var.public_key_path)
 }
 
 resource "aws_instance" "main" {

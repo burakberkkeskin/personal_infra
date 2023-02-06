@@ -19,7 +19,7 @@ variable "key_name" {
   type        = string 
   default     = "Main"  
 }
-variable "private_key_path" {
+variable "public_key_path" {
   description = "Path to the private key"
   type        = string 
   sensitive = true

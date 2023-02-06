@@ -16,14 +16,26 @@ variable "aws_zone" {
 }
 
 // VPC Variables
+variable "vpc_cidr_block" {
+  description = "The CIDR block for the VPC."
+  type        = string
+  default = "10.10.0.0/16"
+}
+
 variable "public_subnets" {
   description = "Public subnets options for each subnet"
-  type = list(map(string))
+  type = list(object({
+    cidr_block = string
+    availability_zone = string
+  }))
 }
 
 variable "private_subnets" {
   description = "Private subnets options for each subnet"
-  type = list(map(string))
+  type = list(object({
+    cidr_block = string
+    availability_zone = string
+  }))
 }
 
 // EC2 Instance Variables
@@ -32,8 +44,8 @@ variable "key_name" {
   type        = string
   default     = "Main"
 }
-variable "ec2_private_key_path" {
-  description = "The path to the private key"
+variable "ec2_public_key_path" {
+  description = "The path to the publica key"
   type        = string
 }
 variable "ec2_instance_ami" {
@@ -70,28 +82,28 @@ EOF
 }
 
 
-variable "lb_enable_deletion_protection" {
-  description = "Enable deletion protection on the load balancer"
-  type        = bool
-  default     = false
-}
+# variable "lb_enable_deletion_protection" {
+#   description = "Enable deletion protection on the load balancer"
+#   type        = bool
+#   default     = false
+# }
 
-variable "alb_tags" {
-  description = "A map of tags to assign to the resource."
-  type        = map(string)
-  default     = {
-    "Name" = "Main"
-  }
-}
+# variable "alb_tags" {
+#   description = "A map of tags to assign to the resource."
+#   type        = map(string)
+#   default     = {
+#     "Name" = "Main"
+#   }
+# }
 
-variable "health_check_options" {
-  description = "The health check options."
-  type = object({
-    path = string
-    port = string
-  })
-  default = {
-    path = "/"
-    port = "80"
-  }
-}
+# variable "health_check_options" {
+#   description = "The health check options."
+#   type = object({
+#     path = string
+#     port = string
+#   })
+#   default = {
+#     path = "/"
+#     port = "80"
+#   }
+# }
