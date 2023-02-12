@@ -45,11 +45,6 @@ resource "aws_instance" "main" {
   }
 }
 
-resource "aws_eip_association" "eip_assoc" {
-  instance_id   = aws_instance.*.id
-  allocation_id = var.eip_id
-}
-
 resource "aws_iam_role" "ec2_role" {
   name = "${var.name}-role"
 
