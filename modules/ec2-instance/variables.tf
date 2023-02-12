@@ -14,6 +14,10 @@ variable "name" {
   default     = "Main"
 }
 
+variable "ec2_count" {
+  description = "The number of instances to create"
+  type        = number
+}
 variable "key_name" {
   description = "Name of the key pair to use"
   type        = string 

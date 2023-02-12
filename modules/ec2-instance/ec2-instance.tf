@@ -4,6 +4,7 @@ resource "aws_key_pair" "main" {
 }
 
 resource "aws_instance" "main" {
+  count = var.ec2_count
   availability_zone = var.zone
 
   // Resource Settings
@@ -45,7 +46,7 @@ resource "aws_instance" "main" {
 }
 
 resource "aws_eip_association" "eip_assoc" {
-  instance_id   = aws_instance.main.id
+  instance_id   = aws_instance.*.id
   allocation_id = var.eip_id
 }
 
