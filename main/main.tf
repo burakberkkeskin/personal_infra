@@ -16,6 +16,7 @@ module "ec2_instance" {
   source = "../modules/ec2-instance"
   region = var.aws_region
   zone = var.aws_zone
+  ec2_count = var.ec2_count
   ami = var.ec2_instance_ami
   instance_type = var.ec2_instance_type
   name = var.project_name
@@ -40,5 +41,5 @@ module "load_balancer" {
   subnets = module.vpc.public_subnet_ids
   tags = var.lb_tags
   health_check_options = var.lb_health_check_options
-  instance_ids = [module.ec2_instance.instance_id]
+  instance_ids = module.ec2_instance.instance_id
 }

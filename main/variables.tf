@@ -44,6 +44,11 @@ variable "key_name" {
   type        = string
   default     = "Main"
 }
+variable "ec2_count" {
+  description = "The number of instances to create"
+  type        = number
+  default     = 1
+}
 variable "ec2_public_key_path" {
   description = "The path to the publica key"
   type        = string
