@@ -25,7 +25,7 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref }}
       - name: Generate Infracost Cost Estimate Baseline
         run: |
-          infracost breakdown --path$TF_ROOT \
+          infracost breakdown --path=$TF_ROOT \
                               --fortmat=json \
                               --out-file=/tmp/infracost_base.json
       - name: Checkout PR branch
