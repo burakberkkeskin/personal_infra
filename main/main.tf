@@ -43,3 +43,13 @@ module "load_balancer" {
   health_check_options = var.lb_health_check_options
   instance_ids = module.ec2_instance.instance_id
 }
+
+module "cloudflare_dns" {
+  source = "../modules/cloudflare_dns"
+  api_token = var.cloudflare_api_token
+  zone_id = var.cloudflare_zone_id
+  record_name = var.cloudflare_record_name
+  record_value = module.load_balancer.lb_dns_name
+  record_type = var.cloudflare_record_type
+  record_proxied = var.cloudflare_record_proxied
+}

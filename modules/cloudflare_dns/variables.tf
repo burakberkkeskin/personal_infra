@@ -1,6 +1,10 @@
 // Cloudflare Variables
-variable "domain" {
-  description = "The Cloudflare zone name"
+variable "api_token" {
+  description = "The Cloudflare API token"
+  type        = string
+}
+variable "zone_id" {
+  description = "The Cloudflare zone ID"
   type        = string
 }
 variable "record_type" {

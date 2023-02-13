@@ -14,6 +14,10 @@ variable "aws_zone" {
   type        = string
   default     = "eu-central-1a"
 }
+variable "cloudflare_api_token" {
+  description = "The Cloudflare API token"
+  type        = string
+}
 
 // VPC Variables
 variable "vpc_cidr_block" {
@@ -110,4 +114,28 @@ variable "lb_health_check_options" {
     path = "/"
     port = "80"
   }
+}
+
+// Cloudflare Variables
+variable "cloudflare_zone_id" {
+  description = "The Cloudflare zone ID"
+  type        = string
+}
+variable "cloudflare_record_type" {
+  description = "The Cloudflare record type"
+  type        = string
+}
+variable "cloudflare_record_name" {
+  description = "The Cloudflare record name"
+  type        = string
+}
+variable "cloudflare_record_proxied" {
+  description = "The Cloudflare record proxied"
+  type        = bool
+  default     = true
+}
+variable "cloudflare_ttl" {
+  description = "The Cloudflare record TTL"
+  type        = number
+  default     = 1
 }
