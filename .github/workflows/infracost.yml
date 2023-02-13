@@ -7,7 +7,7 @@ on:
 jobs:
   infracost_master:
     name: Infracost
-    # if: github.ref == 'refs/heads/master'
+    if: github.event.pull_request.base.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -15,10 +15,6 @@ jobs:
     env:
       TF_ROOT: main
     steps:
-      - name: Testing 1
-        run: echo "${{ github.ref }}"
-      - name: Testing 2
-        run: echo "${{ github.event.pull_request.base.ref }}"
       - name: Setup Infracost
         uses: infracost/actions/setup@v2
         with:
