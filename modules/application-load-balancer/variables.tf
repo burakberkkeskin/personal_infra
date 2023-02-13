@@ -49,3 +49,13 @@ variable "instance_ids" {
   description = "The instance ids to attach to the target group."
   type        = list(string)
 }
+variable "listeners" {
+  description = "The listeners to create on the load balancer."
+  type = list(object({
+    port     = number
+    protocol = string
+    action   = object({
+      type             = string
+    })
+  }))
+}

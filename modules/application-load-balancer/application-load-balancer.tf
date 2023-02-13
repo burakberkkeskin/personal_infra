@@ -45,11 +45,12 @@ resource "aws_lb" "main" {
 }
 
 resource "aws_lb_listener" "main" {
+  count = length(var.listeners)
   load_balancer_arn = aws_lb.main.arn
-  port              = "80"
-  protocol          = "HTTP"
+  port              = var.listeners[count.index].port
+  protocol          = var.listeners[count.index].protocol
   default_action {
-    type             = "forward"
+    type             = var.listeners[count.index].action.type
     target_group_arn = aws_lb_target_group.main.arn
   }
 }

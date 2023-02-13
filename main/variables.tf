@@ -90,6 +90,13 @@ variable "ec2_role_policy" {
 EOF
 }
 
+// Lb Variables
+variable "lb_name" {
+  description = "General name of the resources"
+  type        = string
+  default     = "Main"
+}
+
 variable "lb_enable_deletion_protection" {
   description = "Enable deletion protection on the load balancer"
   type        = bool
@@ -104,6 +111,20 @@ variable "lb_tags" {
   }
 }
 
+variable "lb_access_logs" {
+  description = "The name of the S3 bucket to store logs in."
+  type        = object({
+    enabled = bool
+    name = string
+    prefix = string
+  })
+  default = {
+    enabled = false
+    name = ""
+    prefix = ""
+  }
+}
+
 variable "lb_health_check_options" {
   description = "The health check options."
   type = object({
@@ -114,6 +135,32 @@ variable "lb_health_check_options" {
     path = "/"
     port = "80"
   }
+}
+variable "lb_listeners" {
+  description = "The list of listeners."
+  type = list(object({
+    port = number
+    protocol = string
+    action = object({
+      type = string
+    })
+  }))
+  default = [
+    {
+      port = 80
+      protocol = "HTTP"
+      action = {
+        type = "forward"
+      }
+    },
+    {
+      port = 443
+      protocol = "HTTP"
+      action = {
+        type = "forward"
+      }
+    }
+  ]
 }
 
 // Cloudflare Variables

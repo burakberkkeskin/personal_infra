@@ -42,6 +42,7 @@ module "load_balancer" {
   tags = var.lb_tags
   health_check_options = var.lb_health_check_options
   instance_ids = module.ec2_instance.instance_id
+  listeners = var.lb_listeners
 }
 
 module "cloudflare_dns" {
