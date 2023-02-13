@@ -26,7 +26,7 @@ jobs:
       - name: Generate Infracost Cost Estimate Baseline
         run: |
           infracost breakdown --path=$TF_ROOT \
-                              --fortmat=json \
+                              --format=json \
                               --out-file=/tmp/infracost_base.json
       - name: Checkout PR branch
         uses: actions/checkout@v3
