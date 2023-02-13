@@ -31,6 +31,12 @@ jobs:
     env:
       TF_ROOT: main
     steps:
+      - name: Test1
+        run: echo "${{ inputs.terraform-var-file }}"
+      - name: Test2
+        run: echo "${{ inputs.usage-file }}"
+      - name: Test3
+        run: echo "${{ inputs.working-directory }}"
       - name: Setup Infracost
         uses: infracost/actions/setup@v2
         with:
@@ -54,7 +60,6 @@ jobs:
         run: |
           infracost diff --path=$TF_ROOT \
                         --format=json \
-                        --show-skipped \
                         --terraform-var-file=${{ inputs.terraform-var-file }} \
                         --usage-file ${{ inputs.usage-file }} \
                         --compare-to=/tmp/infracost_base.json \
