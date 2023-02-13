@@ -2,7 +2,7 @@ version: 0.1
 resource_type_default_usage:
   aws_instance:
     operating_system: linux # Override the operating system of the instance, can be: linux, windows, suse, rhel.
-    monthly_hrs: 730.0 # Monthly number of hours the instance ran for.
+    monthly_hrs: 750.0 # Monthly number of hours the instance ran for.
   #reserved_instance_type: '' # Offering class for Reserved Instances, can be: convertible, standard.
   #reserved_instance_term: '' # Term for Reserved Instances, can be: 1_year, 3_year.
   #reserved_instance_payment_option: '' # Payment option for Reserved Instances, can be: no_upfront, partial_upfront, all_upfront.
