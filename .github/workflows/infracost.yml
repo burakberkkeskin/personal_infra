@@ -15,4 +15,4 @@ jobs:
     uses: safderun/personal_infra/.github/workflows/infracost-action.yml@master
     with:
       working-directory: ./main
-      usagefile: ./infracost-usage.yml
+      usage-file: ./infracost-usage.yml
