@@ -69,6 +69,13 @@ resource "aws_iam_role" "ec2_role" {
   }
 }
 
+resource "aws_eip_association" "eip_assoc" {
+  count = var.ec2_count
+  if = var.associate_eip
+  instance_id   = aws_instance.main[count.index].id
+  allocation_id = var.eip_id[count.index]
+}
+
 resource "aws_iam_role_policy" "role_policy" {
   name = "${var.name}-role-policy"
   role = aws_iam_role.ec2_role.id
