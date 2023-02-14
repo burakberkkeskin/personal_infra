@@ -33,7 +33,7 @@ jobs:
           ls -l
           pwd
           cd ${TF_ROOT}
-          echo ${{ secrets.TFVARS_${TF_ROOT} }} > /tmp/terraform.tfvars
+          echo ${{ secrets.TFVARS_${{TF_ROOT}} }} > /tmp/terraform.tfvars
           infracost breakdown --path=. \
                               --terraform-var-file=/tmp/terraform.tfvars \
                               --usage-file=${{ inputs.usage-file }} \
