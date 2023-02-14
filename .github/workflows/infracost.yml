@@ -1,85 +1,19 @@
-name: Infracost Workflow
+name: 'Infracost Analysis'
 on:
-  workflow_call:
-    inputs:
-      # working-directory is added to specify "terraform" directory in project source code as that's where the terraform files live.
-      working-directory:
-        required: false
-        type: string
-        default: 'terraform'
-      # tfvars file path
-      terraform-var-file:
-        required: false
-        type: string
-        default: ''
-      # infracost usage file path
-      usage-file:
-        required: false
-        type: string
-        default: './.env/dev/infracost-usage.yml'
   pull_request:
     branches:
       - master
-      - dev
 jobs:
-  infracost_master:
-    name: Infracost
+  infracost:
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       pull-requests: write
-    env:
-      TF_ROOT: main
     steps:
-      - name: Test1
-        run: echo "${{ inputs.terraform-var-file }}"
-      - name: Test2
-        run: echo "${{ inputs.usage-file }}"
-      - name: Test3
-        run: echo "${{ inputs.working-directory }}"
-      - name: Setup Infracost
-        uses: infracost/actions/setup@v2
+      - name: infracost
+        uses: ./infracost-action.yml
         with:
-          api-key: ${{ secrets.INFRACOST_API_KEY }}
-      - name: Checkout base branch
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.base.ref }}
-      - name: Generate Infracost Cost Estimate Baseline
-        run: |
-          infracost breakdown --path=$TF_ROOT \
-                              --terraform-var-file=${{ inputs.terraform-var-file }} \
-                              --usage-file ${{ inputs.usage-file }} \
-                              --format=json \
-                              --out-file=/tmp/infracost_base.json
-      - name: Checkout PR branch
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-      - name: Generate Infracost Diff
-        run: |
-          infracost diff --path=$TF_ROOT \
-                        --format=json \
-                        --terraform-var-file=${{ inputs.terraform-var-file }} \
-                        --usage-file ${{ inputs.usage-file }} \
-                        --compare-to=/tmp/infracost_base.json \
-                        --out-file=/tmp/infracost.json
-      - name: Generate Infracost Report
-        run: |
-          export INFRACOST_API_KEY=${{ secrets.INFRACOST_API_KEY }}
-          cd ${TF_ROOT}
-          infracost output --path /tmp/infracost.json \
-                          --show-skipped \
-                          --format html \
-                          --out-file report.html
-      - uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb
-        with:
-          name: report.html
-          path: ${{ inputs.working-directory }}/report.html
-      - name: Infracost Comment
-        run: |
-          infracost comment github --path=/tmp/infracost.json \
-                                  --repo=$GITHUB_REPOSITORY \
-                                  --github-token=${{ github.token }} \
-                                  --pull-request=${{ github.event.pull_request.number }} \
-                                  --behavior=update
+          working-directory: ./main
+          terraform-var-file: ${{ secrets.TFVARS_MASTER }}
+          usagefile: ./infracost-usage.yml
