@@ -11,10 +11,8 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - name: Repository Checkout
-        uses: actions/checkout@v3
       - name: infracost
-        uses: ./.github/workflows/infracost-action.yml
+        uses: safderun/personal_infra/.github/workflows/infracost-action.yml@latest
         with:
           working-directory: ./main
           terraform-var-file: ${{ secrets.TFVARS_MASTER }}
