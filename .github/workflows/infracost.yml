@@ -16,5 +16,5 @@ jobs:
     with:
       working-directory: ./main
       usage-file-path: ./infracost-usage.yml
-      tfvars-path: ./variables.tfvars
+      tfvars-path: ./variables.auto.tfvars
     secrets: inherit

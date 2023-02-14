@@ -70,9 +70,9 @@ resource "aws_iam_role" "ec2_role" {
 }
 
 resource "aws_eip_association" "eip_assoc" {
-  count = var.ec2_count
-  if = var.associate_eip
-  instance_id   = aws_instance.main[count.index].id
+  // if eip is not provided, then it will not create eip association
+  count = length(var.eip_id) > 0 ? length(var.eip_id) : 0
+  instance_id = aws_instance.main[count.index].id
   allocation_id = var.eip_id[count.index]
 }
 
