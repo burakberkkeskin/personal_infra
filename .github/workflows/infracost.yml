@@ -17,4 +17,4 @@ jobs:
       working-directory: ./main
       terraform-var-file: ${{ secrets.TFVARS_MASTER }}
       usagefile: ./infracost-usage.yml
-    secrets: inherit
+      infracost_api_key: ico-VbHmD6kYChU8iMwCvCe1AFg77jMdoMN1

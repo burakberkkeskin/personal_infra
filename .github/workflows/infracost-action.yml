@@ -17,6 +17,9 @@ on:
         required: false
         type: string
         default: './.env/dev/infracost-usage.yml'
+      infracost_api_key:
+        required: true
+        type: string
 
 jobs:
   infracost:
@@ -28,7 +31,7 @@ jobs:
       - name: Setup Infracost
         uses: infracost/actions/setup@v2
         with:
-          api-key: ${{ secrets.INFRACOST_API_KEY }}
+          api-key: ${{ inputs.infracost_api_key }}
       - name: Checkout base branch
         uses: actions/checkout@v3
         with:
