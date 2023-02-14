@@ -17,3 +17,4 @@ jobs:
       working-directory: ./main
       usage-file: ./infracost-usage.yml
       tfvars: TFVARS_MAIN
+    secrets: inherit
