@@ -36,8 +36,15 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.base.ref }}
+      - name: check env
+        run: echo $INFRACOST_API_KEY
+      - name: set env
+        run: export INFRACOST_API_KEY=${{secrets.INFRACOST_API_KEY}}
+      - name: check env
+        run: echo $INFRACOST_API_KEY
       - name: Generate Infracost Estimate Baseline
         run: |
+          export INFRACOST_API_KEY=${{secrets.INFRACOST_API_KEY}}
           cd ${TF_ROOT}
           echo ${{ inputs.tfvars }} > /tmp/terraform.tfvars
           infracost breakdown --path=. \
@@ -49,8 +56,10 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.ref }}
+
       - name: Generate Infracost Diff
         run: |
+          export INFRACOST_API_KEY=${{secrets.INFRACOST_API_KEY}}
           cd ${TF_ROOT}
           echo ${{ inputs.tfvars }} > /tmp/terraform.tfvars
           infracost diff --path=. \
