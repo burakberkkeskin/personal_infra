@@ -7,14 +7,13 @@ permissions:
   contents: read
 
 jobs:
-  infracost_master:
+  infracost:
     permissions:
       contents: write
       pull-requests: write
     if: github.event.pull_request.base.ref == 'master'
-    uses: safderun/personal_infra/.github/workflows/infracost-action.yml@master
+    uses: safderun/personal_infra/.github/workflows/infracost-action.yml@dev
     with:
       working-directory: ./main
-      terraform-var-file: ${{ secrets.TFVARS_MASTER }}
-      usagefile: ./infracost-usage.yml
-    secrets: inherit
+      usage-file: ./infracost-usage.yml
+      tfvars: TFVARS_MAIN

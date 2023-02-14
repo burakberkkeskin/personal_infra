@@ -4,26 +4,26 @@ on:
     inputs:
       # working-directory is added to specify "terraform" directory in project source code as that's where the terraform files live.
       working-directory:
-        required: false
+        required: true
         type: string
-        default: 'terraform'
-      # tfvars file path
-      terraform-var-file:
-        required: false
+        default: 'main'
+      # terraform tfvars
+      tfvars:
+        required: true
         type: string
-        default: ''
       # infracost usage file path
       usage-file:
         required: false
         type: string
-        default: './.env/dev/infracost-usage.yml'
+        default: ''
 
 jobs:
   infracost:
     name: Infracost Analysis
     runs-on: ubuntu-latest
     env:
-      TF_ROOT: ${{ inputs.working-directory }}}
+      TF_ROOT: ${{ inputs.working-directory }}
+      TF_VARS_LOCATION: $
     steps:
       - name: Setup Infracost
         uses: infracost/actions/setup@v2
@@ -35,8 +35,9 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref }}
       - name: Generate Infracost Estimate Baseline
         run: |
+          export INFRACOST_API_KEY=${{ secrets.INFRACOST_API_KEY }}
           cd ${TF_ROOT}
-          echo ${{ inputs.terraform-var-file }} > /tmp/terraform.tfvars
+          echo ${{ inputs.tfvars }} > /tmp/terraform.tfvars
           infracost breakdown --path=. \
                               --terraform-var-file=/tmp/terraform.tfvars \
                               --usage-file=${{ inputs.usage-file }} \
@@ -48,8 +49,9 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
       - name: Generate Infracost Diff
         run: |
+          export INFRACOST_API_KEY=${{ secrets.INFRACOST_API_KEY }}
           cd ${TF_ROOT}
-          echo ${{ inputs.terraform-var-file }} > /tmp/terraform.tfvars
+          echo ${{ inputs.tfvars }} > /tmp/terraform.tfvars
           infracost diff --path=. \
                         --format=json \
                         --terraform-var-file=/tmp/terraform.tfvars \
