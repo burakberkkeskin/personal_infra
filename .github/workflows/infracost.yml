@@ -3,17 +3,18 @@ on:
   pull_request:
     branches:
       - master
+permissions:
+  contents: read
+
 jobs:
   infracost_master:
-    if: github.event.pull_request.base.ref == 'master'
-    runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
-    steps:
-      - name: infracost
-        uses: safderun/personal_infra/.github/workflows/infracost-action.yml@latest
-        with:
-          working-directory: ./main
-          terraform-var-file: ${{ secrets.TFVARS_MASTER }}
-          usagefile: ./infracost-usage.yml
+    if: github.event.pull_request.base.ref == 'master'
+    uses: safderun/personal_infra/.github/workflows/infracost-action.yml@latest
+    with:
+      working-directory: ./main
+      terraform-var-file: ${{ secrets.TFVARS_MASTER }}
+      usagefile: ./infracost-usage.yml
+    secrets: inherit
