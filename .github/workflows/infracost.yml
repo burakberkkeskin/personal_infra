@@ -12,7 +12,7 @@ jobs:
       contents: write
       pull-requests: write
     if: github.event.pull_request.base.ref == 'master'
-    uses: safderun/personal_infra/.github/workflows/infracost-action.yml@master
+    uses: safderun/personal_infra/.github/workflows/infracost-action.yml@dev
     with:
       working-directory: ./main
       usage-file: ./infracost-usage.yml
