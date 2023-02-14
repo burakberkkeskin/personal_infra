@@ -5,7 +5,7 @@ on:
       - master
 jobs:
   infracost:
-    if: github.ref == 'refs/heads/master'
+    if: github.event.pull_request.base.ref == 'master'
     runs-on: ubuntu-latest
     permissions:
       contents: write
