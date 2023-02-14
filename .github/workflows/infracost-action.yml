@@ -30,6 +30,8 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref }}
       - name: Generate Infracost Estimate Baseline
         run: |
+          ls -l
+          pwd
           cd ${TF_ROOT}
           echo ${{ secrets.TFVARS_${TF_ROOT} }} > /tmp/terraform.tfvars
           infracost breakdown --path=. \
