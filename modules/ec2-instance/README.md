@@ -10,7 +10,6 @@ module "example" {
 
 	 # Required variables
 	 ec2_count  = 
-	 eip_id  = 
 	 public_key_path  = 
 	 security_group_ids  = 
 	 subnet_id  = 
@@ -20,6 +19,7 @@ module "example" {
 	 assume_role_policy  = "{\n\"Version\": \"2012-10-17\",\n\"Statement\": [\n  {\n    \"Action\": \"sts:AssumeRole\",\n    \"Principal\": {\n      \"Service\": \"ec2.amazonaws.com\"\n    },\n    \"Effect\": \"Allow\",\n    \"Sid\": \"\"\n  }\n]\n}\n"
 	 ec2_instance_type  = "t2.micro"
 	 ec2_intance_ami  = "ami-0a5b5c0ea66ec560d"
+	 eip_id  = []
 	 instance_type  = "t2.micro"
 	 key_name  = "Main"
 	 name  = "Main"
@@ -33,6 +33,7 @@ module "example" {
 
 | Name | Type |
 |------|------|
+| [aws_eip_association.eip_assoc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip_association) | resource |
 | [aws_iam_instance_profile.role_instance_profile](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_instance_profile) | resource |
 | [aws_iam_role.ec2_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy.role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
@@ -47,7 +48,7 @@ module "example" {
 | <a name="input_ec2_count"></a> [ec2\_count](#input\_ec2\_count) | The number of instances to create | `number` | n/a | yes |
 | <a name="input_ec2_instance_type"></a> [ec2\_instance\_type](#input\_ec2\_instance\_type) | Instance Type | `string` | `"t2.micro"` | no |
 | <a name="input_ec2_intance_ami"></a> [ec2\_intance\_ami](#input\_ec2\_intance\_ami) | The AMI to use for the instance | `string` | `"ami-0a5b5c0ea66ec560d"` | no |
-| <a name="input_eip_id"></a> [eip\_id](#input\_eip\_id) | Elastic IP ID | `string` | n/a | yes |
+| <a name="input_eip_id"></a> [eip\_id](#input\_eip\_id) | Elastic IP ID | `list(string)` | `[]` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | Instance Type | `string` | `"t2.micro"` | no |
 | <a name="input_key_name"></a> [key\_name](#input\_key\_name) | Name of the key pair to use | `string` | `"Main"` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name tag of the resources | `string` | `"Main"` | no |
