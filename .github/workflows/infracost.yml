@@ -15,5 +15,6 @@ jobs:
     uses: safderun/personal_infra/.github/workflows/infracost-action.yml@dev
     with:
       working-directory: ./main
-      usage-file: ./infracost-usage.yml
-      tfvars: TFVARS_MAIN
+      usage-file-path: ./infracost-usage.yml
+      tfvars-path: ./variables.tfvars
+    secrets: inherit
