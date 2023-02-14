@@ -21,10 +21,12 @@ jobs:
   infracost:
     name: Infracost Analysis
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     env:
       TF_ROOT: ${{ inputs.working-directory }}
-      TF_VARS_LOCATION: $
-      INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
+      # INFRACOST_API_KEY: ${{ secrets.INFRACOST_API_KEY }}
     steps:
       - name: Setup Infracost
         uses: infracost/actions/setup@v2
