@@ -4,22 +4,14 @@ on:
     inputs:
       # working-directory is added to specify "terraform" directory in project source code as that's where the terraform files live.
       working-directory:
-        required: false
+        required: true
         type: string
-        default: 'terraform'
-      # tfvars file path
-      terraform-var-file:
-        required: false
-        type: string
-        default: ''
+        default: 'main'
       # infracost usage file path
       usage-file:
         required: false
         type: string
-        default: './.env/dev/infracost-usage.yml'
-      infracost_api_key:
-        required: true
-        type: string
+        default: ''
 
 jobs:
   infracost:
@@ -31,7 +23,7 @@ jobs:
       - name: Setup Infracost
         uses: infracost/actions/setup@v2
         with:
-          api-key: ${{ inputs.infracost_api_key }}
+          api-key: ${{ secrets.INFRACOST_API_KEY }}
       - name: Checkout base branch
         uses: actions/checkout@v3
         with:
@@ -39,7 +31,7 @@ jobs:
       - name: Generate Infracost Estimate Baseline
         run: |
           cd ${TF_ROOT}
-          echo ${{ inputs.terraform-var-file }} > /tmp/terraform.tfvars
+          echo ${{ secrets.TFVARS_${TF_ROOT} }} > /tmp/terraform.tfvars
           infracost breakdown --path=. \
                               --terraform-var-file=/tmp/terraform.tfvars \
                               --usage-file=${{ inputs.usage-file }} \
@@ -52,7 +44,7 @@ jobs:
       - name: Generate Infracost Diff
         run: |
           cd ${TF_ROOT}
-          echo ${{ inputs.terraform-var-file }} > /tmp/terraform.tfvars
+          echo ${{ secrets.TFVARS_${TF_ROOT} > /tmp/terraform.tfvars
           infracost diff --path=. \
                         --format=json \
                         --terraform-var-file=/tmp/terraform.tfvars \

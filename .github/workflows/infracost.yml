@@ -15,6 +15,4 @@ jobs:
     uses: safderun/personal_infra/.github/workflows/infracost-action.yml@master
     with:
       working-directory: ./main
-      terraform-var-file: ${{ secrets.TFVARS_MASTER }}
       usagefile: ./infracost-usage.yml
-      infracost_api_key: ico-VbHmD6kYChU8iMwCvCe1AFg77jMdoMN1
