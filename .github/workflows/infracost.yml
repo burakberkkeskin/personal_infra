@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  infracost_master:
+  infracost:
     permissions:
       contents: write
       pull-requests: write
@@ -16,3 +16,4 @@ jobs:
     with:
       working-directory: ./main
       usage-file: ./infracost-usage.yml
+      tfvars: TFVARS_MAIN
