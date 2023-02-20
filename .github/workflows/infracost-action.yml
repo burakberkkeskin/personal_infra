@@ -36,7 +36,7 @@ jobs:
           cd ${TF_ROOT}
           infracost breakdown --path=. \
                               --format=json \
-                              --config-file=${{ inputs.config-file-path }} \
+                              --config=${{ inputs.config-file-path }} \
                               --out-file=/tmp/infracost_base.json
       - name: Checkout PR branch
         uses: actions/checkout@v3
@@ -48,7 +48,7 @@ jobs:
           cd ${TF_ROOT}
           infracost diff --path=. \
                         --format=json \
-                        --config-file=${{ inputs.config-file-path }} \
+                        --config=${{ inputs.config-file-path }} \
                         --compare-to=/tmp/infracost_base.json \
                         --out-file=/tmp/infracost.json
       - name: Infracost Comment
