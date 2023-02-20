@@ -4,4 +4,4 @@ projects:
     name: main
     usage_file: main/infracost-usage.yml
     terraform_var_files:
-      - main/variables.auto.tfvars
+      - variables.auto.tfvars

@@ -34,9 +34,8 @@ jobs:
       - name: Generate Infracost Estimate Baseline
         run: |
           cd ${TF_ROOT}
-          infracost breakdown --path=. \
+          infracost breakdown --config-file=${{ inputs.config-file-path }} \
                               --format=json \
-                              --config=${{ inputs.config-file-path }} \
                               --out-file=/tmp/infracost_base.json
       - name: Checkout PR branch
         uses: actions/checkout@v3
@@ -46,9 +45,8 @@ jobs:
       - name: Generate Infracost Diff
         run: |
           cd ${TF_ROOT}
-          infracost diff --path=. \
+          infracost diff --config-file=${{ inputs.config-file-path }} \
                         --format=json \
-                        --config=${{ inputs.config-file-path }} \
                         --compare-to=/tmp/infracost_base.json \
                         --out-file=/tmp/infracost.json
       - name: Infracost Comment
