@@ -7,16 +7,11 @@ on:
         required: true
         type: string
         default: '.'
-      # terraform tfvars
-      tfvars-path:
-        required: true
-        type: string
-        default: ''
       # infracost usage file path
-      usage-file-path:
+      config-file-path:
         required: false
         type: string
-        default: ''
+        default: 'infracost.yml'
 
 jobs:
   infracost:
@@ -39,9 +34,7 @@ jobs:
       - name: Generate Infracost Estimate Baseline
         run: |
           cd ${TF_ROOT}
-          infracost breakdown --path=. \
-                              --terraform-var-file=${{ inputs.tfvars-path }} \
-                              --usage-file=${{ inputs.usage-file-path }} \
+          infracost breakdown --config-file=${{ inputs.config-file-path }} \
                               --format=json \
                               --out-file=/tmp/infracost_base.json
       - name: Checkout PR branch
@@ -52,10 +45,8 @@ jobs:
       - name: Generate Infracost Diff
         run: |
           cd ${TF_ROOT}
-          infracost diff --path=. \
+          infracost diff --config-file=${{ inputs.config-file-path }} \
                         --format=json \
-                        --terraform-var-file=${{ inputs.tfvars-path }} \
-                        --usage-file=${{ inputs.usage-file-path }} \
                         --compare-to=/tmp/infracost_base.json \
                         --out-file=/tmp/infracost.json
       - name: Infracost Comment
