@@ -26,25 +26,25 @@ module "ec2_instance" {
   ]
 }
 
-# module "load_balancer" {
-#   source = "../modules/application-load-balancer"
-#   name = var.project_name
-#   enable_deletion_protection = var.lb_enable_deletion_protection
-#   vpc_id = module.vpc.vpc_id
-#   security_groups = [module.vpc.http_security_group_id, module.vpc.egress_security_group_id]
-#   subnets = module.vpc.public_subnet_ids
-#   tags = var.lb_tags
-#   health_check_options = var.lb_health_check_options
-#   instance_ids = module.ec2_instance.instance_id
-#   listeners = var.lb_listeners
-# }
+module "load_balancer" {
+  source = "../modules/application-load-balancer"
+  name = var.project_name
+  enable_deletion_protection = var.lb_enable_deletion_protection
+  vpc_id = module.vpc.vpc_id
+  security_groups = [module.vpc.http_security_group_id, module.vpc.egress_security_group_id]
+  subnets = module.vpc.public_subnet_ids
+  tags = var.lb_tags
+  health_check_options = var.lb_health_check_options
+  instance_ids = module.ec2_instance.instance_id
+  listeners = var.lb_listeners
+}
 
-# module "cloudflare_dns" {
-#   source = "../modules/cloudflare_dns"
-#   api_token = var.cloudflare_api_token
-#   zone_id = var.cloudflare_zone_id
-#   record_name = var.cloudflare_record_name
-#   record_value = module.load_balancer.lb_dns_name
-#   record_type = var.cloudflare_record_type
-#   record_proxied = var.cloudflare_record_proxied
-# }
+module "cloudflare_dns" {
+  source = "../modules/cloudflare_dns"
+  api_token = var.cloudflare_api_token
+  zone_id = var.cloudflare_zone_id
+  record_name = var.cloudflare_record_name
+  record_value = module.load_balancer.lb_dns_name
+  record_type = var.cloudflare_record_type
+  record_proxied = var.cloudflare_record_proxied
+}
