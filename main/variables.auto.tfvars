@@ -28,7 +28,6 @@ private_subnets = [ {
 // ec2 variables
 key_name = "fatheraws"
 ec2_count = 1
-ec2_public_key_path = "~/.ssh/awsf.pub"
 ec2_instance_ami = "ami-03e08697c325f02ab"
 ec2_instance_type = "t2.micro"
 ec2_user_data = <<EOF

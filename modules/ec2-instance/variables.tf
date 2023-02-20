@@ -23,10 +23,11 @@ variable "key_name" {
   type        = string 
   default     = "Main"  
 }
-variable "public_key_path" {
-  description = "Path to the private key"
+variable "public_key" {
+  description = "Public Key to use for the instance"
   type        = string 
   sensitive = true
+  default = ""
 }
 
 variable "ami" {

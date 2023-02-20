@@ -16,7 +16,7 @@ module "ec2_instance" {
   instance_type = var.ec2_instance_type
   name = var.project_name
   key_name = var.key_name
-  public_key_path = var.ec2_public_key_path
+  public_key = var.ec2_public_key
   subnet_id = module.vpc.public_subnet_ids[0]
   security_group_ids = [module.vpc.egress_security_group_id ,module.vpc.ssh_security_group_id, module.vpc.http_security_group_id]
   user_data = var.ec2_user_data
