@@ -74,6 +74,6 @@ lb_listeners = [ {
 
 // cloudflare variables
 cloudflare_record_type = "CNAME"
-cloudflare_record_name = "lb"
+cloudflare_record_name = "site"
 cloudflare_record_proxied = true
 cloudflare_ttl = 3600
