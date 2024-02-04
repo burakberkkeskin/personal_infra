@@ -14,9 +14,9 @@ resource "aws_internet_gateway" "main" {
 }
 
 resource "aws_subnet" "public" {
-  count = length(var.public_subnets)
-  vpc_id = aws_vpc.main.id
-  cidr_block = element(var.public_subnets, count.index).cidr_block
+  count             = length(var.public_subnets)
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = element(var.public_subnets, count.index).cidr_block
   availability_zone = element(var.public_subnets, count.index).availability_zone
   tags = {
     "Name" = "${var.name}_public_${count.index}"
@@ -24,9 +24,9 @@ resource "aws_subnet" "public" {
 }
 
 resource "aws_subnet" "private" {
-  count = length(var.private_subnets)
-  vpc_id = aws_vpc.main.id
-  cidr_block = element(var.private_subnets, count.index).cidr_block
+  count             = length(var.private_subnets)
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = element(var.private_subnets, count.index).cidr_block
   availability_zone = element(var.private_subnets, count.index).availability_zone
   tags = {
     "Name" = "${var.name}_private_${count.index}"
@@ -44,7 +44,7 @@ resource "aws_route_table" "public_v4" {
   }
   route {
     ipv6_cidr_block = "::/0"
-    gateway_id = aws_internet_gateway.main.id
+    gateway_id      = aws_internet_gateway.main.id
   }
   tags = {
     "Name" = "${var.name}_public_v4"
@@ -52,7 +52,7 @@ resource "aws_route_table" "public_v4" {
 }
 
 resource "aws_route_table_association" "public_v4" {
-  count = length(var.public_subnets)
+  count          = length(var.public_subnets)
   subnet_id      = aws_subnet.public[count.index].id
   route_table_id = aws_route_table.public_v4.id
 }
@@ -63,78 +63,55 @@ resource "aws_route_table" "private_main" {
 }
 
 resource "aws_route_table_association" "private" {
-  count = length(var.private_subnets)
+  count          = length(var.private_subnets)
   subnet_id      = aws_subnet.private[count.index].id
   route_table_id = aws_route_table.private_main.id
 }
 
-//// Create security groups for the VPC
+## Create egress security groups
 
-// Allow all traffic to egress security group
 resource "aws_security_group" "egress" {
-  name        = "${var.name}-egress"
-  description = "Allow all outbound traffic"
+  for_each    = var.egress_security_groups
+  name        = each.value.name
+  description = each.value.description
   vpc_id      = aws_vpc.main.id
+  dynamic "egress" {
+    for_each = each.value.egress
+    content {
+      description      = egress.value.description
+      from_port        = egress.value.from_port
+      to_port          = egress.value.to_port
+      protocol         = egress.value.protocol
+      cidr_blocks      = egress.value.cidr_blocks
+      ipv6_cidr_blocks = egress.value.ipv6_cidr_blocks
+    }
 
-  egress {
-    description = "Allow all outbound traffic"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = [ "::/0" ]
   }
-
   tags = {
-    "Name" = "${var.name}-egress"
+    "Name" = each.value.name
   }
 }
 
-// Allow ssh traffic to ingress security group
-resource "aws_security_group" "ssh" {
-  name        = "${var.name}-ssh"
-  description = "Allow minimal traffic"
+## Create ingress security groups
+
+resource "aws_security_group" "ingress" {
+  for_each    = var.ingress_security_groups
+  name        = "${var.name}-${each.value.name}"
+  description = each.value.description
   vpc_id      = aws_vpc.main.id
+  dynamic "ingress" {
+    for_each = each.value.ingress
+    content {
+      description      = ingress.value.description
+      from_port        = ingress.value.from_port
+      to_port          = ingress.value.to_port
+      protocol         = ingress.value.protocol
+      cidr_blocks      = ingress.value.cidr_blocks
+      ipv6_cidr_blocks = ingress.value.ipv6_cidr_blocks
+    }
 
-  ingress {
-    description = "Allow SSH traffic"
-    from_port   = "22"
-    to_port     = "22"
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
   }
-
   tags = {
-    "Name" = "${var.name}-ssh"
-  }
-}
-
-// Allow http traffic to ingress security group
-resource "aws_security_group" "http" {
-  name        = "${var.name}-http"
-  description = "Allow http traffic"
-  vpc_id      = aws_vpc.main.id
-
-  ingress {
-    description = "Allow HTTP traffic"
-    from_port   = "80"
-    to_port     = "80"
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  ingress {
-    description = "Allow HTTPS traffic"
-    from_port   = "443"
-    to_port     = "443"
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  tags = {
-    "Name" = "${var.name}-http"
+    "Name" = each.value.name
   }
 }

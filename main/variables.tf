@@ -73,21 +73,3 @@ variable "cloudflare_zone_id" {
   description = "The Cloudflare zone ID"
   type        = string
 }
-variable "cloudflare_record_type" {
-  description = "The Cloudflare record type"
-  type        = string
-}
-variable "cloudflare_record_name" {
-  description = "The Cloudflare record name"
-  type        = string
-}
-variable "cloudflare_record_proxied" {
-  description = "The Cloudflare record proxied"
-  type        = bool
-  default     = true
-}
-variable "cloudflare_ttl" {
-  description = "The Cloudflare record TTL"
-  type        = number
-  default     = 1
-}

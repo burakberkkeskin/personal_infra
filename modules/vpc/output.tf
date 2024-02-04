@@ -12,12 +12,9 @@ output "private_subnet_ids" {
 }
 
 // Security Group IDs
-output "egress_security_group_id" {
-  value = aws_security_group.egress.id
+output "egress_security_group_ids" {
+  value = { for key, sg in var.egress_security_groups : key => aws_security_group.egress[key].id }
 }
-output "ssh_security_group_id" {
-  value = aws_security_group.ssh.id
-}
-output "http_security_group_id" {
-  value = aws_security_group.http.id
+output "ingress_security_group_ids" {
+  value = { for key, sg in var.ingress_security_groups : key => aws_security_group.ingress[key].id }
 }
