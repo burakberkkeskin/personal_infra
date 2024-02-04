@@ -103,7 +103,7 @@ module "ec2_instance" {
   key_name           = "fatheraws"
   public_key         = var.ec2_public_key
   subnet_id          = module.vpc.public_subnet_ids[0]
-  security_group_ids = [module.vpc.ingress_security_group_ids["ssh"], module.vpc.egress_security_group_ids["all"]]
+  security_group_ids = [module.vpc.ingress_security_group_ids["ssh"], module.vpc.ingress_security_group_ids["http"], module.vpc.egress_security_group_ids["all"]]
   user_data          = var.ec2_user_data
   role_policy        = var.ec2_role_policy
   depends_on = [
