@@ -4,10 +4,6 @@ aws_region = "eu-central-1"
 aws_zone = "eu-central-1a"
 
 // ec2 variables
-key_name = "fatheraws"
-ec2_count = 1
-ec2_instance_ami = "ami-03e08697c325f02ab"
-ec2_instance_type = "t2.micro"
 ec2_user_data = <<EOF
 #!/bin/bash
 sudo apt-get update

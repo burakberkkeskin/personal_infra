@@ -20,29 +20,9 @@ variable "cloudflare_api_token" {
 }
 
 // EC2 Instance Variables
-variable "key_name" {
-  description = "The name of the key pair to use"
-  type        = string
-  default     = "Main"
-}
-variable "ec2_count" {
-  description = "The number of instances to create"
-  type        = number
-  default     = 1
-}
 variable "ec2_public_key" {
   description = "Public Key to use for the instance"
   type        = string
-}
-variable "ec2_instance_ami" {
-  description = "The AMI to use for the instance"
-  type        = string
-  default     = "ami-0a5b5c0ea66ec560d"
-}
-variable "ec2_instance_type" {
-  description = "Instance Type"
-  type        = string
-  default     = "t2.micro"
 }
 variable "ec2_user_data" {
   description = "User data to pass to instance"
