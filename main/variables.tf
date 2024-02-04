@@ -19,29 +19,6 @@ variable "cloudflare_api_token" {
   type        = string
 }
 
-// VPC Variables
-variable "vpc_cidr_block" {
-  description = "The CIDR block for the VPC."
-  type        = string
-  default = "10.10.0.0/16"
-}
-
-variable "public_subnets" {
-  description = "Public subnets options for each subnet"
-  type = list(object({
-    cidr_block = string
-    availability_zone = string
-  }))
-}
-
-variable "private_subnets" {
-  description = "Private subnets options for each subnet"
-  type = list(object({
-    cidr_block = string
-    availability_zone = string
-  }))
-}
-
 // EC2 Instance Variables
 variable "key_name" {
   description = "The name of the key pair to use"
@@ -59,8 +36,8 @@ variable "ec2_public_key" {
 }
 variable "ec2_instance_ami" {
   description = "The AMI to use for the instance"
-  type = string
-  default = "ami-0a5b5c0ea66ec560d"
+  type        = string
+  default     = "ami-0a5b5c0ea66ec560d"
 }
 variable "ec2_instance_type" {
   description = "Instance Type"
@@ -73,8 +50,8 @@ variable "ec2_user_data" {
 }
 variable "ec2_role_policy" {
   description = "Assume Role Policy"
-  type = string
-  default = <<EOF
+  type        = string
+  default     = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -106,22 +83,22 @@ variable "lb_enable_deletion_protection" {
 variable "lb_tags" {
   description = "A map of tags to assign to the resource."
   type        = map(string)
-  default     = {
+  default = {
     "Name" = "Main"
   }
 }
 
 variable "lb_access_logs" {
   description = "The name of the S3 bucket to store logs in."
-  type        = object({
+  type = object({
     enabled = bool
-    name = string
-    prefix = string
+    name    = string
+    prefix  = string
   })
   default = {
     enabled = false
-    name = ""
-    prefix = ""
+    name    = ""
+    prefix  = ""
   }
 }
 
@@ -139,7 +116,7 @@ variable "lb_health_check_options" {
 variable "lb_listeners" {
   description = "The list of listeners."
   type = list(object({
-    port = number
+    port     = number
     protocol = string
     action = object({
       type = string
@@ -147,14 +124,14 @@ variable "lb_listeners" {
   }))
   default = [
     {
-      port = 80
+      port     = 80
       protocol = "HTTP"
       action = {
         type = "forward"
       }
     },
     {
-      port = 443
+      port     = 443
       protocol = "HTTP"
       action = {
         type = "forward"

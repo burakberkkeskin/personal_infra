@@ -1,42 +1,59 @@
 module "vpc" {
   source = "../modules/vpc"
   region = var.aws_region
-  zone = var.aws_zone
-  name = "Main"
-  public_subnets = var.public_subnets
-  private_subnets = var.private_subnets
+  zone   = var.aws_zone
+  name   = var.project_name
+  public_subnets = [{
+    availability_zone = "eu-central-1a"
+    vpc_cidr_block    = "10.10.0.0/16"
+    cidr_block        = "10.10.20.0/24"
+    },
+    {
+      availability_zone = "eu-central-1b"
+      cidr_block        = "10.10.40.0/24"
+    }
+  ]
+  private_subnets = [{
+    availability_zone = "eu-central-1a"
+    cidr_block        = "10.10.21.0/24"
+    },
+    {
+      availability_zone = "eu-central-1b"
+      cidr_block        = "10.10.41.0/24"
+    }
+  ]
 }
 
 module "ec2_instance" {
-  source = "../modules/ec2-instance"
-  region = var.aws_region
-  zone = var.aws_zone
-  ec2_count = var.ec2_count
-  ami = var.ec2_instance_ami
-  instance_type = var.ec2_instance_type
-  name = var.project_name
-  key_name = var.key_name
-  public_key = var.ec2_public_key
-  subnet_id = module.vpc.public_subnet_ids[0]
-  security_group_ids = [module.vpc.egress_security_group_id ,module.vpc.ssh_security_group_id, module.vpc.http_security_group_id]
-  user_data = var.ec2_user_data
-  role_policy = var.ec2_role_policy
+  source             = "../modules/ec2-instance"
+  region             = var.aws_region
+  zone               = var.aws_zone
+  ec2_count          = var.ec2_count
+  ami                = var.ec2_instance_ami
+  instance_type      = var.ec2_instance_type
+  name               = var.project_name
+  key_name           = var.key_name
+  public_key         = var.ec2_public_key
+  subnet_id          = module.vpc.public_subnet_ids[0]
+  security_group_ids = [module.vpc.egress_security_group_id, module.vpc.ssh_security_group_id, module.vpc.http_security_group_id]
+  user_data          = var.ec2_user_data
+  role_policy        = var.ec2_role_policy
   depends_on = [
     module.vpc
   ]
 }
 
 module "load_balancer" {
-  source = "../modules/application-load-balancer"
-  name = var.project_name
+  source                     = "../modules/application-load-balancer"
+  name                       = var.project_name
   enable_deletion_protection = var.lb_enable_deletion_protection
-  vpc_id = module.vpc.vpc_id
-  security_groups = [module.vpc.http_security_group_id, module.vpc.egress_security_group_id]
-  subnets = module.vpc.public_subnet_ids
-  tags = var.lb_tags
-  health_check_options = var.lb_health_check_options
-  instance_ids = module.ec2_instance.instance_id
-  listeners = var.lb_listeners
+  vpc_id                     = module.vpc.vpc_id
+  security_groups            = [module.vpc.http_security_group_id, module.vpc.egress_security_group_id]
+  subnets                    = module.vpc.public_subnet_ids
+  tags                       = var.lb_tags
+  health_check_options       = var.lb_health_check_options
+  instance_ids               = module.ec2_instance.instance_id
+  listeners                  = var.lb_listeners
 }
 
 # module "cloudflare_dns" {
