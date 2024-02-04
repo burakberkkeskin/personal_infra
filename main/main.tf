@@ -28,11 +28,11 @@ module "ec2_instance" {
   source             = "../modules/ec2-instance"
   region             = var.aws_region
   zone               = var.aws_zone
-  ec2_count          = var.ec2_count
-  ami                = var.ec2_instance_ami
-  instance_type      = var.ec2_instance_type
+  ec2_count          = 1
+  ami                = "ami-03e08697c325f02ab"
+  instance_type      = "t2.micro"
   name               = var.project_name
-  key_name           = var.key_name
+  key_name           = "fatheraws"
   public_key         = var.ec2_public_key
   subnet_id          = module.vpc.public_subnet_ids[0]
   security_group_ids = [module.vpc.egress_security_group_id, module.vpc.ssh_security_group_id, module.vpc.http_security_group_id]
