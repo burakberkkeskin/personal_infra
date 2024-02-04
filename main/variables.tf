@@ -54,20 +54,6 @@ variable "lb_name" {
   default     = "Main"
 }
 
-variable "lb_enable_deletion_protection" {
-  description = "Enable deletion protection on the load balancer"
-  type        = bool
-  default     = false
-}
-
-variable "lb_tags" {
-  description = "A map of tags to assign to the resource."
-  type        = map(string)
-  default = {
-    "Name" = "Main"
-  }
-}
-
 variable "lb_access_logs" {
   description = "The name of the S3 bucket to store logs in."
   type = object({
@@ -80,44 +66,6 @@ variable "lb_access_logs" {
     name    = ""
     prefix  = ""
   }
-}
-
-variable "lb_health_check_options" {
-  description = "The health check options."
-  type = object({
-    path = string
-    port = string
-  })
-  default = {
-    path = "/"
-    port = "80"
-  }
-}
-variable "lb_listeners" {
-  description = "The list of listeners."
-  type = list(object({
-    port     = number
-    protocol = string
-    action = object({
-      type = string
-    })
-  }))
-  default = [
-    {
-      port     = 80
-      protocol = "HTTP"
-      action = {
-        type = "forward"
-      }
-    },
-    {
-      port     = 443
-      protocol = "HTTP"
-      action = {
-        type = "forward"
-      }
-    }
-  ]
 }
 
 // Cloudflare Variables

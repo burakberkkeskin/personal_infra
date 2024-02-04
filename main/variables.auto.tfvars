@@ -26,28 +26,3 @@ EOF
 
 // lb variables
 lb_name = "main"
-lb_enable_deletion_protection = false
-lb_health_check_options = {
-  path = "/"
-  port = "80"
-}
-lb_listeners = [ {
-      port = 80
-      protocol = "HTTP"
-      action = {
-        type = "forward"
-      }
-    },
-    {
-      port = 443
-      protocol = "HTTP"
-      action = {
-        type = "forward"
-      }
-    } ]
-
-// cloudflare variables
-cloudflare_record_type = "CNAME"
-cloudflare_record_name = "site"
-cloudflare_record_proxied = true
-cloudflare_ttl = 3600
