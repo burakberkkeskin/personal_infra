@@ -3,28 +3,6 @@ project_name = "main"
 aws_region = "eu-central-1"
 aws_zone = "eu-central-1a"
 
-// vpc variables
-vpc_cidr_block = "10.10.0.0/16"
-
-public_subnets = [ {
-  availability_zone = "eu-central-1a"
-  cidr_block = "10.10.20.0/24"
-  },
-  {
-  availability_zone = "eu-central-1b"
-  cidr_block = "10.10.40.0/24"
-  } 
-]
-private_subnets = [ {
-  availability_zone = "eu-central-1a"
-  cidr_block = "10.10.21.0/24"
-  },
-  {
-  availability_zone = "eu-central-1b"
-  cidr_block = "10.10.41.0/24"
-  } 
-]
-
 // ec2 variables
 key_name = "fatheraws"
 ec2_count = 1
