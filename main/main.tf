@@ -1,5 +1,5 @@
 module "vpc" {
-  source = "github.com/burakberkkeskin/tf-modules/vpc"
+  source = "github.com/burakberkkeskin/tf-modules.git///vpc?ref=develop"
   region = var.aws_region
   zone   = var.aws_zone
   name   = var.project_name
@@ -92,14 +92,19 @@ module "vpc" {
   }
 }
 
+module "eip_for_ec2" {
+  source = "github.com/burakberkkeskin/tf-modules.git//elastic-ip?ref=develop"
+  name   = var.project_name
+}
+
 module "ec2_instance" {
-  source             = "github.com/burakberkkeskin/tf-modules/ec2-instance"
+  source             = "github.com/burakberkkeskin/tf-modules.git//ec2-instance?ref=develop"
   region             = var.aws_region
   zone               = var.aws_zone
-  ec2_count          = 1
   ami                = "ami-03e08697c325f02ab"
   instance_type      = "t2.micro"
   ec2_disk_size      = 25
+  eip_id             = module.eip_for_ec2.elastic_ip_id
   name               = var.project_name
   key_name           = "fatheraws"
   public_key         = var.ec2_public_key
@@ -126,7 +131,7 @@ module "load_balancer" {
     path = "/"
     port = "80"
   }
-  instance_ids = module.ec2_instance.instance_id
+  instance_ids = [module.ec2_instance.instance_id]
   listeners = [{
     port     = 80
     protocol = "HTTP"
