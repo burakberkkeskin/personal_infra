@@ -1,5 +1,5 @@
 module "vpc" {
-  source = "github.com/burakberkkeskin/tf-modules.git///vpc?ref=develop"
+  source = "github.com/burakberkkeskin/tf-modules.git///vpc?ref=v1.0.0"
   region = var.aws_region
   zone   = var.aws_zone
   name   = var.project_name
@@ -93,12 +93,12 @@ module "vpc" {
 }
 
 module "eip_for_ec2" {
-  source = "github.com/burakberkkeskin/tf-modules.git//elastic-ip?ref=develop"
+  source = "github.com/burakberkkeskin/tf-modules.git//elastic-ip?ref=v1.0.0"
   name   = var.project_name
 }
 
 module "ec2_instance" {
-  source             = "github.com/burakberkkeskin/tf-modules.git//ec2-instance?ref=develop"
+  source             = "github.com/burakberkkeskin/tf-modules.git//ec2-instance?ref=v1.0.0"
   region             = var.aws_region
   zone               = var.aws_zone
   ami                = "ami-03e08697c325f02ab"
@@ -118,7 +118,7 @@ module "ec2_instance" {
 }
 
 module "load_balancer" {
-  source                     = "github.com/burakberkkeskin/tf-modules/application-load-balancer"
+  source                     = "github.com/burakberkkeskin/tf-modules.git//application-load-balancer?ref=v1.0.0"
   name                       = var.project_name
   enable_deletion_protection = false
   vpc_id                     = module.vpc.vpc_id
@@ -149,7 +149,7 @@ module "load_balancer" {
 }
 
 module "cloudflare_dns" {
-  source               = "github.com/burakberkkeskin/tf-modules/cloudflare_dns"
+  source               = "github.com/burakberkkeskin/tf-modules.git//cloudflare_dns?ref=v1.0.0"
   cloudflare_api_token = var.cloudflare_api_token
   zone_id              = var.cloudflare_zone_id
   record_name          = "site"
