@@ -29,8 +29,8 @@ module "vpc" {
       ingress = [
         {
           description      = "Allow SSH traffic"
-          from_port        = "22"
-          to_port          = "22"
+          from_port        = "4192"
+          to_port          = "4192"
           protocol         = "tcp"
           cidr_blocks      = ["0.0.0.0/0"]
           ipv6_cidr_blocks = ["::/0"]
@@ -99,6 +99,7 @@ module "ec2_instance" {
   ec2_count          = 1
   ami                = "ami-03e08697c325f02ab"
   instance_type      = "t2.micro"
+  ec2_disk_size      = 25
   name               = var.project_name
   key_name           = "fatheraws"
   public_key         = var.ec2_public_key

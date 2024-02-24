@@ -1,16 +1,16 @@
 variable "region" {
   description = "The region to deploy to"
-  type = string
-  default = "eu-central"
+  type        = string
+  default     = "eu-central"
 }
 variable "zone" {
   description = "The availability zone to deploy to"
-  type = string
-  default = "eu-central-1a"
+  type        = string
+  default     = "eu-central-1a"
 }
 variable "name" {
   description = "Name tag of the resources"
-  type        = string 
+  type        = string
   default     = "Main"
 }
 
@@ -18,22 +18,27 @@ variable "ec2_count" {
   description = "The number of instances to create"
   type        = number
 }
+variable "ec2_disk_size" {
+  description = "Disk size of the instance"
+  type        = number
+  default     = 8
+}
 variable "key_name" {
   description = "Name of the key pair to use"
-  type        = string 
-  default     = "Main"  
+  type        = string
+  default     = "Main"
 }
 variable "public_key" {
   description = "Public Key to use for the instance"
-  type        = string 
-  sensitive = true
-  default = ""
+  type        = string
+  sensitive   = true
+  default     = ""
 }
 
 variable "ami" {
   description = "The AMI to use for the instance"
-  type = string
-  default = "ami-0a5b5c0ea66ec560d"
+  type        = string
+  default     = "ami-0a5b5c0ea66ec560d"
 }
 variable "instance_type" {
   description = "Instance Type"
@@ -51,12 +56,12 @@ variable "security_group_ids" {
 variable "eip_id" {
   description = "Elastic IP ID"
   type        = list(string)
-  default    = []
+  default     = []
 }
 variable "ec2_intance_ami" {
   description = "The AMI to use for the instance"
-  type = string
-  default = "ami-0a5b5c0ea66ec560d"
+  type        = string
+  default     = "ami-0a5b5c0ea66ec560d"
 }
 variable "ec2_instance_type" {
   description = "Instance Type"
@@ -67,13 +72,13 @@ variable "user_data" {
   description = "User data to pass to instance"
   type        = string
   default     = ""
-  sensitive = true
+  sensitive   = true
 }
 
 variable "assume_role_policy" {
   description = "Assume Role Policy"
-  type = string
-  default =  <<EOF
+  type        = string
+  default     = <<EOF
 {
 "Version": "2012-10-17",
 "Statement": [
@@ -92,6 +97,6 @@ EOF
 
 variable "role_policy" {
   description = "Policy for the ec2 role"
-  type = string
-  default = ""
+  type        = string
+  default     = ""
 }
