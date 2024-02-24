@@ -1,5 +1,5 @@
 module "vpc" {
-  source = "../modules/vpc"
+  source = "github.com/burakberkkeskin/tf-modules/vpc"
   region = var.aws_region
   zone   = var.aws_zone
   name   = var.project_name
@@ -93,7 +93,7 @@ module "vpc" {
 }
 
 module "ec2_instance" {
-  source             = "../modules/ec2-instance"
+  source             = "github.com/burakberkkeskin/tf-modules/ec2-instance"
   region             = var.aws_region
   zone               = var.aws_zone
   ec2_count          = 1
@@ -113,7 +113,7 @@ module "ec2_instance" {
 }
 
 module "load_balancer" {
-  source                     = "../modules/application-load-balancer"
+  source                     = "github.com/burakberkkeskin/tf-modules/application-load-balancer"
   name                       = var.project_name
   enable_deletion_protection = false
   vpc_id                     = module.vpc.vpc_id
@@ -144,7 +144,7 @@ module "load_balancer" {
 }
 
 module "cloudflare_dns" {
-  source               = "../modules/cloudflare_dns"
+  source               = "github.com/burakberkkeskin/tf-modules/cloudflare_dns"
   cloudflare_api_token = var.cloudflare_api_token
   zone_id              = var.cloudflare_zone_id
   record_name          = "site"
