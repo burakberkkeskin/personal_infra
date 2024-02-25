@@ -1,19 +1,13 @@
 terraform {
-  cloud {
-    organization = "safderun"
-    workspaces {
-      name = "main"
-    }
-  }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.52"
+      version = "4.52.0"
     }
   }
 
 }
 
 provider "aws" {
-  region     = var.aws_region
+  region = var.aws_region
 }

@@ -14,10 +14,6 @@ variable "aws_zone" {
   type        = string
   default     = "eu-central-1a"
 }
-variable "cloudflare_api_token" {
-  description = "The Cloudflare API token"
-  type        = string
-}
 
 // EC2 Instance Variables
 variable "ec2_public_key" {
@@ -66,10 +62,4 @@ variable "lb_access_logs" {
     name    = ""
     prefix  = ""
   }
-}
-
-// Cloudflare Variables
-variable "cloudflare_zone_id" {
-  description = "The Cloudflare zone ID"
-  type        = string
 }

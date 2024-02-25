@@ -105,7 +105,6 @@ module "ec2_instance" {
   ami                = "ami-03e08697c325f02ab"
   instance_type      = "t2.micro"
   ec2_disk_size      = 25
-  eip_id             = module.eip_for_ec2.elastic_ip_id
   name               = var.project_name
   key_name           = "fatheraws"
   public_key         = var.ec2_public_key
@@ -116,6 +115,12 @@ module "ec2_instance" {
   depends_on = [
     module.vpc
   ]
+}
+
+resource "aws_eip_association" "eip_assoc" {
+  // if eip is not provided, then it will not create eip association
+  instance_id   = module.ec2_instance.instance_id
+  allocation_id = module.eip_for_ec2.elastic_ip_id
 }
 
 module "load_balancer" {
@@ -147,14 +152,4 @@ module "load_balancer" {
         type = "forward"
       }
   }]
-}
-
-module "cloudflare_dns" {
-  source               = "github.com/burakberkkeskin/tf-modules.git//cloudflare_dns?ref=v1.0.0"
-  cloudflare_api_token = var.cloudflare_api_token
-  zone_id              = var.cloudflare_zone_id
-  record_name          = "site"
-  record_value         = module.load_balancer.lb_dns_name
-  record_type          = "CNAME"
-  record_proxied       = true
 }
