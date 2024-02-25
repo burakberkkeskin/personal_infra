@@ -1,11 +1,12 @@
 module "vpc" {
-  source = "github.com/burakberkkeskin/tf-modules.git///vpc?ref=v1.0.0"
-  region = var.aws_region
-  zone   = var.aws_zone
-  name   = var.project_name
+  source         = "github.com/burakberkkeskin/tf-modules.git///vpc?ref=v1.0.0"
+  region         = var.aws_region
+  zone           = var.aws_zone
+  name           = var.project_name
+  vpc_cidr_block = "10.10.0.0/16"
+
   public_subnets = [{
     availability_zone = "eu-central-1a"
-    vpc_cidr_block    = "10.10.0.0/16"
     cidr_block        = "10.10.20.0/24"
     },
     {
