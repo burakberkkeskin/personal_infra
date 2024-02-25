@@ -1,5 +1,5 @@
 module "vpc" {
-  source         = "github.com/burakberkkeskin/tf-modules.git///vpc?ref=v1.0.0"
+  source         = "github.com/burakberkkeskin/tf-modules.git///vpc?ref=v1.0.1"
   region         = var.aws_region
   zone           = var.aws_zone
   name           = var.project_name
@@ -94,12 +94,12 @@ module "vpc" {
 }
 
 module "eip_for_ec2" {
-  source = "github.com/burakberkkeskin/tf-modules.git//elastic-ip?ref=v1.0.0"
+  source = "github.com/burakberkkeskin/tf-modules.git//elastic-ip?ref=v1.0.1"
   name   = var.project_name
 }
 
 module "ec2_instance" {
-  source             = "github.com/burakberkkeskin/tf-modules.git//ec2-instance?ref=v1.0.0"
+  source             = "github.com/burakberkkeskin/tf-modules.git//ec2-instance?ref=v1.0.1"
   region             = var.aws_region
   zone               = var.aws_zone
   ami                = "ami-03e08697c325f02ab"
@@ -124,7 +124,7 @@ resource "aws_eip_association" "eip_assoc" {
 }
 
 module "load_balancer" {
-  source                     = "github.com/burakberkkeskin/tf-modules.git//application-load-balancer?ref=v1.0.0"
+  source                     = "github.com/burakberkkeskin/tf-modules.git//application-load-balancer?ref=v1.0.1"
   name                       = var.project_name
   enable_deletion_protection = false
   vpc_id                     = module.vpc.vpc_id
